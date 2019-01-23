@@ -14,6 +14,7 @@ class Configuration
 end
 
 class Swaggering < Sinatra::Base
+  
   register Sinatra::CrossOrigin
 
   @@routes = {}

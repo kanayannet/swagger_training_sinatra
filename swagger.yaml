@@ -50,6 +50,7 @@ paths:
                 type: "integer"
               temp:
                 type: "integer"
+  /room/{id}/{temp}:
     post:
       summary: "温度をpost"
       description: "温度を入力する"

@@ -2,6 +2,12 @@ require 'json'
 require 'sinatra'
 require './app/models/room'
 
+default_dir = `pwd`.chomp
+
+App.add_route('GET', '/', {}) do
+  erb :index
+end
+
 App.add_route('GET', '/room/{id}', {
   "resourcePath" => "/Default",
   "summary" => "個別の部屋を取得",
@@ -19,17 +25,16 @@ App.add_route('GET', '/room/{id}', {
     ]}) do
   cross_origin
   content_type :json
-  room_data = RoomData.new
+  room_data = RoomData.new(default_dir)
   room_data.room(params).to_json
 end
 
-
-App.add_route('POST', '/room/{id}', {
+App.add_route('POST', '/room/{id}/{temp}', {
   "resourcePath" => "/Default",
   "summary" => "温度をpost",
-  "nickname" => "room_id_post", 
+  "nickname" => "room_id_temp_post", 
   "responseClass" => "inline_response_200_1", 
-  "endpoint" => "/room/{id}", 
+  "endpoint" => "/room/{id}/{temp}", 
   "notes" => "温度を入力する",
   "parameters" => [
     {
@@ -49,7 +54,7 @@ App.add_route('POST', '/room/{id}', {
 
   ret = {}
   begin
-    room_data = RoomData.new
+    room_data = RoomData.new(default_dir)
     room_data.update(params)
     ret = { id: params[:id].to_i }
   rescue => e
@@ -73,7 +78,7 @@ App.add_route('GET', '/room', {
   cross_origin
 
   content_type :json
-  room_data = RoomData.new
+  room_data = RoomData.new(default_dir)
   room_data.rooms.to_json
 end
 

@@ -3,8 +3,8 @@ require 'json'
 
 class RoomData
 
-  def initialize
-    @json_path = './data/rooms.json'
+  def initialize(path)
+    @json_path = "#{path}/data/rooms.json"
   end
 
   def rooms

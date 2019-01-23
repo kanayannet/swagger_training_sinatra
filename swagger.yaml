@@ -1,0 +1,121 @@
+---
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: "部屋の温度"
+host: "localhost:9292"
+paths:
+  /room:
+    get:
+      summary: "一覧情報"
+      description: "一覧で取得する\n"
+      parameters: []
+      responses:
+        200:
+          description: "Successful response"
+          schema:
+            title: "ArrayOfRooms"
+            type: "array"
+            items:
+              type: "object"
+              title: "Room"
+              properties:
+                id:
+                  type: "integer"
+                name:
+                  type: "string"
+                room_id:
+                  type: "integer"
+                temp:
+                  type: "number"
+  /room/{id}:
+    get:
+      summary: "個別の部屋を取得"
+      description: "指定された部屋番号の情報を返します"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "部屋番号"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Successful response"
+          schema:
+            type: "object"
+            properties:
+              name:
+                type: "string"
+              area:
+                type: "integer"
+              temp:
+                type: "integer"
+    post:
+      summary: "温度をpost"
+      description: "温度を入力する"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "部屋番号"
+        required: true
+        type: "integer"
+      - name: "temp"
+        in: "path"
+        description: "温度"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "Successful response"
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
+        500:
+          description: "Internal Server Error"
+          schema:
+            type: "object"
+            properties:
+              errors:
+                type: "array"
+                items:
+                  type: "string"
+                  title: "エラー"
+            title: "arrayOferrors"
+definitions:
+  inline_response_200_1:
+    properties:
+      id:
+        type: "integer"
+    example:
+      id: 0
+  inline_response_200:
+    properties:
+      name:
+        type: "string"
+      area:
+        type: "integer"
+      temp:
+        type: "integer"
+    example:
+      area: 0
+      temp: 6
+      name: "name"
+  arrayOferrors:
+    properties:
+      errors:
+        type: "array"
+        items:
+          type: "string"
+          title: "エラー"
+  Room:
+    properties:
+      id:
+        type: "integer"
+      name:
+        type: "string"
+      room_id:
+        type: "integer"
+      temp:
+        type: "number"

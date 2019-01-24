@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <style>
+      ul li{
+        display: inline-block;
+        margin-right: 1em;
+        background-color: #7cfc00;
+        color: #000;
+        font-size: 20px;
+        width: 250px;
+        padding: 10px;
+      }
+      ul li.hot{
+        background-color: #ff4500;
+        color: #fff;
+      }
+      ul li.cold{
+        background-color: #4169e1;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <ul id="js-room">
+    </ul>
+    <script>
+      var ajax_room_req = function(){
+        $('#js-room').empty();
+        $.ajax({
+          url: '/room',
+          dataType: 'json'
+        }).done(function(j){
+          $(j).each(function(){
+            $('#js-room').append('<li id="js-room-'+this.id+'">'+this.name+'<br>'+this.temp+'度</li>');
+            var room = $('#js-room-'+this.id);
+            if(this.temp >= 30){
+              room.addClass('hot');
+            }else if(this.temp <= 15){
+              room.addClass('cold');
+            }else{
+              room.removeClass('hot');
+              room.removeClass('cold');
+            }
+          });
+        });
+      };
+      ajax_room_req();
+      setInterval(ajax_room_req, 5000);
+    </script>
+  </body>
+</html>
